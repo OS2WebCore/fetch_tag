@@ -1,6 +1,9 @@
 # fetch_tag
 Simple script to create database backup and checkout tag on bellcom drupal projects.
 
+## Dependencies
+* drush
+
 ## Usage
 ### Checkout tag on repo
 

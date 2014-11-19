@@ -3,7 +3,6 @@ DATE=`date +%Y%m%d%H%M`
 SCRIPT_PATH="`dirname \"$0\"`"
 SCRIPT_PATH="`( cd \"$SCRIPT_PATH\" && pwd )`"
 
-
 # Referencing undefined variables (which default to "")
 set -o nounset
 # Don't ignore failed commands
@@ -160,6 +159,11 @@ if [[ $RESTORE != true ]]; then
 fi
 
 RES=`cd $DOCUMENT_ROOT; git checkout --quiet $TAG`
+if [[ $RESTORE == true ]]; then
+  echo "$DATE - restore: $TAG" >> $SCRIPT_PATH/fetch_tag.log
+else
+  echo "$DATE - checkout: $TAG" >> $SCRIPT_PATH/fetch_tag.log
+fi
 
 if [[ $RES != "" ]]; then
   echo $RES
@@ -173,6 +177,5 @@ if [[ $RESTORE == true ]]; then
     exit
   fi
 
-  RES=`cd $DOCUMENT_ROOT; gunzip -c $BACKUP_PATH | drush sql-cli`
-  echo $RES
+  cd $DOCUMENT_ROOT; gunzip -c $BACKUP_PATH | drush sql-cli
 fi
